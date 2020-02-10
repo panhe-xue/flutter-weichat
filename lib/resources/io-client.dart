@@ -35,6 +35,9 @@ class IOClient {
         socket.emit('login', {
           'uid': uid
         });
+
+        // 待开发功能，更新uid对应的socketId
+
       });
       socket.on('disconnect', (_) => print('disconnect'));
     }

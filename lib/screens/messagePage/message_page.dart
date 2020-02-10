@@ -72,10 +72,10 @@ class HomeScreenState extends State {
       ),
       body: Center(
         child: ListView.builder(
-          itemCount: message.messageData.length,
+          itemCount: message.messageList.length,
           // reverse: true,
           itemBuilder: (BuildContext context, int index) {
-            return MessageItem(message.messageData[index]);
+            return MessageItem(message.messageList[index]);
           },
         )
       ),

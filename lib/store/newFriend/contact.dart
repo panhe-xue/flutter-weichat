@@ -20,5 +20,7 @@ abstract class ContactMobx with Store {
     int index = 0;
     this.contactsData.insert(index, value);
   }
+
+  // 待开发功能，更新uid对应的socketId
 }
 final Contact contact = Contact();
