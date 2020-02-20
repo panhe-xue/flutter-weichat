@@ -3,14 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:weichat/resources/io-client.dart';
 import 'package:weichat/utils/ui_util.dart';
 import 'package:weichat/screens/Chat/Chat.dart';
+import 'package:weichat/store/message/message.dart';
+import 'package:weichat/resources/local_data_provider.dart';
 
 class FriendDetail extends StatelessWidget {
   final String nickname, account, avatar, socketId;
   final bool isFriends;
-  final int gender, sender, receicer;
+  final int gender, sender, receiver;
   FriendDetail({Key key,
     @required this.sender,
-    @required this.receicer,
+    @required this.receiver,
     @required this.nickname,
     @required this.account,
     @required this.avatar,
@@ -119,9 +121,9 @@ class FriendDetail extends StatelessWidget {
                     'target': socketId,
                     'payload': {
                       'sender' : sender,
-                      'receiver' : receicer,
-                      'nickname' : nickname,
-                      'avatar' : avatar
+                      'receiver' : receiver,
+                      'nickname' : LocalDataProvider.getInstance().getNickName(),
+                      'avatar' : LocalDataProvider.getInstance().getAvatar()
                     },
                   });
                   UiUtil.showToast('添加好友成功');
@@ -137,8 +139,12 @@ class FriendDetail extends StatelessWidget {
                   child: Center(child: Text('发送消息', style: TextStyle(color: Colors.blue.shade900, fontSize: 18)))
                 ),
                 onTap: () {
+                  print(receiver);
+                  message.enterChatPage(receiver, ChatPersonDetail(
+                    receiver, nickname, avatar, socketId
+                  ));
                   // 发送消息
-                  Navigator.push(context, new MaterialPageRoute(builder: (context) => new Chat()));
+                  Navigator.push(context, new MaterialPageRoute(builder: (context) => new ChatPage(-1)));
                 })
             ),
           ]),

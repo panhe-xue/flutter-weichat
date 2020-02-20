@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import './newFriend_vo.dart';
 import 'package:weichat/resources/network-provider.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:weichat/store/newFriend/status.dart';
@@ -7,6 +6,7 @@ import 'dart:convert';
 import 'package:weichat/utils/ui_util.dart';
 import 'package:weichat/store/newFriend/contact.dart';
 import 'package:weichat/screens/contacts/contact_vo.dart';
+import 'package:weichat/screens/newAddFriend/NewFriendData.dart';
 
 class NewFriendItem extends StatelessWidget {
   NewFriendData data;
@@ -18,7 +18,9 @@ class NewFriendItem extends StatelessWidget {
       return RaisedButton(
         child: Text('添加', style: TextStyle(color: Colors.blue.shade300)),
         onPressed: () async {
-          print('添加好友');
+          print('ppppppppppooooooooo');
+          print(data.uid);
+          print(data.avatar);
           var res = await NetworkProvider().addFriend({
             'uid': data.uid
           });
@@ -45,9 +47,7 @@ class NewFriendItem extends StatelessWidget {
         leading: new Image.network(this.data.avatar, width: 40.0, height: 40.0),
         title: new Text(this.data.nickname),
         subtitle: new Text("请求添加你为朋友"),
-        trailing: Observer( // 观察数据
-          builder: (_) => _getFriendStatus(),
-        )
+        trailing: Observer(builder: (_) => _getFriendStatus())
       ),
       color: Colors.white,
     );

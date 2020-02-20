@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import './Chat_vo.dart';
+import 'package:weichat/store/message/message.dart';
+// import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:weichat/resources/local_data_provider.dart';
 
 class EntryItem extends StatelessWidget {
-  final Message message;
+  final Chat _message;
   // final Chatter chatter;
-  EntryItem(this.message);
+  EntryItem(this._message);
 
   Widget row() {
-    if(message.isSender) {
+    if(_message.isSender) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget> [
@@ -24,7 +26,7 @@ class EntryItem extends StatelessWidget {
                   ),
                   margin: const EdgeInsets.only(top: 5.0),
                   child: Text(
-                    message.text,
+                    _message.text,
                     maxLines: 1,
                     style: TextStyle(
                       color: Colors.black,
@@ -36,11 +38,10 @@ class EntryItem extends StatelessWidget {
             )
           ),
           new Container(
+            width: 40,
+            height: 40,
             margin: const EdgeInsets.only(left: 12.0,right: 12.0),
-            child: new CircleAvatar(
-              backgroundImage: AssetImage("images/lebron.jpg"),
-              radius: 24.0,
-            ) ,
+            child: Image.network(LocalDataProvider.getInstance().getAvatar()),
           ),
         ]
       );
@@ -49,11 +50,10 @@ class EntryItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget> [
           new Container(
+            width: 40,
+            height: 40,
             margin: const EdgeInsets.only(left: 12.0,right: 12.0),
-            child: new CircleAvatar(
-              backgroundImage: AssetImage("images/a002.jpg"),
-              radius: 24.0,
-            ) ,
+            child: Image.network(message.currentChatMessage.avatar),
           ),
           Flexible(
             child: Column(
@@ -68,7 +68,7 @@ class EntryItem extends StatelessWidget {
                   ),
                   margin: const EdgeInsets.only(top: 5.0),
                   child: Text(
-                    message.text,
+                    _message.text,
                     maxLines: 1,
                     style: TextStyle(
                       color: Colors.black,

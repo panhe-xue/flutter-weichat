@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
-import '../Chat/Chat.dart';
-import 'package:date_format/date_format.dart';
+import 'package:weichat/screens/Chat/Chat.dart';
 import 'package:badges/badges.dart';
+import 'package:weichat/store/message/message.dart';
 
 class MessageItem extends StatelessWidget {
-  final message;
-  MessageItem(this.message);
+  final MessageListItem messageItem;
+  final int index;
+  MessageItem(this.messageItem, this.index);
   Widget avatarW() {
-    var count = message.newCount;
+    int uid = messageItem.uid;
+    int count = message.badgeCountMap[uid];
     if(count != 0 && count != null) {
       return Badge(
         badgeContent: Text('$count', style: TextStyle(color: Colors.white)),
         badgeColor: Colors.red,
-        child: new Image.network(this.message.avatar, width: 40.0, height: 40.0),
+        child: new Image.network(this.messageItem.avatar, width: 40.0, height: 40.0),
       );
     } else {
-      return new Image.network(this.message.avatar, width: 40.0, height: 40.0);
+      return new Image.network(this.messageItem.avatar, width: 40.0, height: 40.0);
     }
   }
 
@@ -23,14 +25,18 @@ class MessageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return new ListTile(
         leading: avatarW(),
-        title: new Text(this.message.title),
-        subtitle: new Text(this.message.subTitle),
-        trailing: new Text(formatDate(this.message.time, [HH, ":", nn, ":", "ss"]).toString()),
+        title: new Text(this.messageItem.nickname),
+        subtitle: new Text(this.messageItem.subTitle),
+        trailing: new Text(this.messageItem.time),
         onTap: () {
-          Navigator.of(context).push(
-            new MaterialPageRoute(builder: (context) {
-              return new Chat();
-            })
+          message.enterChatPage(this.messageItem.uid, ChatPersonDetail(
+            this.messageItem.uid, this.messageItem.nickname, this.messageItem.avatar, this.messageItem.socketId
+          ));
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (context) => new ChatPage(index)
+            )
           );
         },
       );

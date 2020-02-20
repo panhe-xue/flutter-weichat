@@ -47,4 +47,24 @@ mixin _$Contact on ContactMobx, Store {
       _$ContactMobxActionController.endAction(_$actionInfo);
     }
   }
+
+  @override
+  dynamic isInMessageList(dynamic uid) {
+    final _$actionInfo = _$ContactMobxActionController.startAction();
+    try {
+      return super.isInMessageList(uid);
+    } finally {
+      _$ContactMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeNewsocketId(dynamic data) {
+    final _$actionInfo = _$ContactMobxActionController.startAction();
+    try {
+      return super.changeNewsocketId(data);
+    } finally {
+      _$ContactMobxActionController.endAction(_$actionInfo);
+    }
+  }
 }

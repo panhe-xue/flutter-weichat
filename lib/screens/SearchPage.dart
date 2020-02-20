@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:weichat/resources/network-provider.dart';
 import 'package:weichat/screens/FriendDetail.dart';
-import 'package:weichat/screens/newAddFriend/newFriend_vo.dart';
 import 'package:weichat/screens/newAddFriend/newFriend_item.dart';
 import 'package:weichat/resources/local_data_provider.dart';
 import 'package:weichat/store/newFriend/newFriend.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class SearchFriendPage extends StatefulWidget {
   @override
@@ -39,7 +39,7 @@ class SearchFriendPageState extends State<SearchFriendPage> {
             new MaterialPageRoute(
               builder: (context) => new FriendDetail(
                 sender: LocalDataProvider.getInstance().getUid(),
-                receicer: friendMessage['id'],
+                receiver: friendMessage['id'],
                 nickname: friendMessage['nickname'],
                 account: friendMessage['phone'],
                 avatar: friendMessage['avatar'],
@@ -93,12 +93,12 @@ class SearchFriendPageState extends State<SearchFriendPage> {
   Widget newFriendList() {
 
     return Flexible(
-      child: ListView.builder(
-        itemCount: newFriendData.length,
+      child: Observer(builder: (_) => ListView.builder(
+        itemCount: newFriend.newFriendData.length,
         itemBuilder: (BuildContext context, int index) {
-          return NewFriendItem(newFriendData[index]);
+          return NewFriendItem(newFriend.newFriendData[index]);
         }
-      ));
+      )));
   }
 
   Widget _finalShow() {

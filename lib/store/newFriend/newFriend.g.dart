@@ -12,14 +12,14 @@ mixin _$NewFriend on NewFriendMobx, Store {
   final _$newFriendDataAtom = Atom(name: 'NewFriendMobx.newFriendData');
 
   @override
-  List<dynamic> get newFriendData {
+  List<NewFriendData> get newFriendData {
     _$newFriendDataAtom.context.enforceReadPolicy(_$newFriendDataAtom);
     _$newFriendDataAtom.reportObserved();
     return super.newFriendData;
   }
 
   @override
-  set newFriendData(List<dynamic> value) {
+  set newFriendData(List<NewFriendData> value) {
     _$newFriendDataAtom.context.conditionallyRunInAction(() {
       super.newFriendData = value;
       _$newFriendDataAtom.reportChanged();

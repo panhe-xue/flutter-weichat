@@ -1,6 +1,9 @@
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:weichat/resources/local_data_provider.dart';
-import 'package:weichat/resources/event-bus.dart';
+import 'package:weichat/store/message/message.dart';
+import 'package:weichat/store/newFriend/contact.dart';
+import 'package:weichat/store/newFriend/newFriend.dart';
+import 'package:weichat/screens/newAddFriend/NewFriendData.dart';
 
 class MessageBean {
   String target;
@@ -21,15 +24,20 @@ class IOClient {
       socket.on('connect', (_) {
         var id = socket.id;
         socket.on(id, (msg){
-          eventBus.fire(new MessageEvent(msg));
-        });
-        // 加好友监听
-        socket.on('addFriend', (msg){
-          eventBus.fire(new AddFriendEvent(
-            msg.uid,
-            msg.nickname,
-            msg.avatar
-          ));
+          String action = msg["data"]["action"];
+          var payload = msg["data"]["payload"];
+          if(action == 'exchange') {
+            message.receiverChatMsg(msg);
+          } else if(action == 'addFriend') {
+            newFriend.setFirst(
+              NewFriendData(
+                payload["sender"],
+                payload["avatar"],
+                payload["nickname"],
+                0,
+              )
+            );
+          }
         });
         // 登录
         socket.emit('login', {
@@ -37,27 +45,14 @@ class IOClient {
         });
 
         // 待开发功能，更新uid对应的socketId
-
+        socket.on('changeSocketId', (msg){
+          message.changeNewsocketId(msg);
+          contact.changeNewsocketId(msg);
+        });
       });
       socket.on('disconnect', (_) => print('disconnect'));
     }
     return socket;
   }
-
-  // static sendAddFriend(messageBean) {
-  //   //实时更新到聊天界面
-  //   if (socketed == null) {
-  //     IOClient.getInstance();
-  //   }
-  //   print(messageBean);
-  //   socketed.emit('addFriend', {
-  //     'target': messageBean.target,
-  //     'payload': {
-  //       'uid' : messageBean.id,
-  //       'nickname' : messageBean.nickname,
-  //       'avatar' : messageBean.avatar
-  //     },
-  //   });
-  // }
 
 }

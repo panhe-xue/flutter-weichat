@@ -2,19 +2,10 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:weichat/resources/network-provider.dart';
-
-class NewFriendData {
-  int uid;
-  String avatar;
-  String nickname;
-  int status; // 0 没有处理 // 1接受 // 3拒绝
-  int hasLook; // 0 没有看过 // 2看过
-  NewFriendData(this.uid, this.avatar, this.nickname, this.status, this.hasLook);
-}
-
-List<NewFriendData> newFriendData = [];
+import 'package:weichat/screens/newAddFriend/NewFriendData.dart';
 
 Future loadNewFriendList() async {
+  List<NewFriendData> newFriendData = [];
   var res = await NetworkProvider().getNewFriendList();
   var data = json.decode(res);
   var result = data["data"];
@@ -27,7 +18,6 @@ Future loadNewFriendList() async {
       item['avatar'],
       item['nickname'],
       item['status'],
-      0,
     ));
   }
   return newFriendData;

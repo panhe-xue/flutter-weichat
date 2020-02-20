@@ -109,10 +109,10 @@ mixin _$Message on MessageMobx, Store {
   }
 
   @override
-  dynamic sendChatMsg(Chat msg, dynamic socket) {
+  dynamic sendChatMsg(Chat msg, dynamic socket, dynamic index) {
     final _$actionInfo = _$MessageMobxActionController.startAction();
     try {
-      return super.sendChatMsg(msg, socket);
+      return super.sendChatMsg(msg, socket, index);
     } finally {
       _$MessageMobxActionController.endAction(_$actionInfo);
     }
@@ -153,6 +153,26 @@ mixin _$Message on MessageMobx, Store {
     final _$actionInfo = _$MessageMobxActionController.startAction();
     try {
       return super.addMessageList(v);
+    } finally {
+      _$MessageMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic isInMessageList(dynamic uid) {
+    final _$actionInfo = _$MessageMobxActionController.startAction();
+    try {
+      return super.isInMessageList(uid);
+    } finally {
+      _$MessageMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic resetMessageList(int index) {
+    final _$actionInfo = _$MessageMobxActionController.startAction();
+    try {
+      return super.resetMessageList(index);
     } finally {
       _$MessageMobxActionController.endAction(_$actionInfo);
     }
@@ -203,6 +223,16 @@ mixin _$Message on MessageMobx, Store {
     final _$actionInfo = _$MessageMobxActionController.startAction();
     try {
       return super.changeBadgeCount(uid);
+    } finally {
+      _$MessageMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeNewsocketId(dynamic data) {
+    final _$actionInfo = _$MessageMobxActionController.startAction();
+    try {
+      return super.changeNewsocketId(data);
     } finally {
       _$MessageMobxActionController.endAction(_$actionInfo);
     }

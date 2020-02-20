@@ -5,10 +5,8 @@ import './contacts_item.dart';
 import 'package:weichat/screens/FriendDetail.dart';
 import 'package:weichat/resources/local_data_provider.dart';
 import 'package:weichat/store/newFriend/contact.dart';
-import 'package:weichat/store/newFriend/newFriend.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:weichat/resources/event-bus.dart';
-import 'package:weichat/screens/newAddFriend/newFriend_vo.dart';
+
 
 class FriendListScreen extends StatefulWidget{
   @override
@@ -18,30 +16,6 @@ class FriendListScreen extends StatefulWidget{
 }
 
 class FriendListScreenState extends State {
-  var loginSubscription;
-  @override
-  void initState() {
-    loginSubscription= eventBus.on<AddFriendEvent>().listen((event) {
-      print('触发了啊....................');
-      print(event);
-      newFriend.setFirst(
-        NewFriendData(
-          event.uid,
-          event.avatar,
-          event.nickname,
-          0,
-          0
-        )
-      );
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-  loginSubscription.cancel();
-  super.dispose();
-  }
 
   _shouldShowHeader(int position) {
     if(position<=0) return false;
@@ -86,7 +60,7 @@ class FriendListScreenState extends State {
                   new MaterialPageRoute(
                     builder: (context) => new FriendDetail(
                       sender: LocalDataProvider.getInstance().getUid(),
-                      receicer: contact.contactsData[index].uid,
+                      receiver: contact.contactsData[index].uid,
                       nickname: contact.contactsData[index].nickname,
                       account: contact.contactsData[index].phone,
                       avatar: contact.contactsData[index].avatar,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './message_item.dart';
 import 'package:weichat/screens/SearchPage.dart';
 import 'package:weichat/store/message/message.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -71,13 +72,13 @@ class HomeScreenState extends State {
         ],
       ),
       body: Center(
-        child: ListView.builder(
+        child: Observer(builder: (_) => ListView.builder(
           itemCount: message.messageList.length,
           // reverse: true,
           itemBuilder: (BuildContext context, int index) {
-            return MessageItem(message.messageList[index]);
+            return Observer(builder: (_) => MessageItem(message.messageList[index], index));
           },
-        )
+        ))
       ),
     );
   }

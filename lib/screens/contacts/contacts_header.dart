@@ -10,7 +10,7 @@ class ContactHeader extends StatelessWidget {
     var count = newFriend.newFriendDataCount;
     if(count !=0 && count != null) {
       return Badge(
-        badgeContent: Text('$count', style: TextStyle(color: Colors.white)),
+        badgeContent: Observer(builder: (_) =>Text('${newFriend.newFriendDataCount}', style: TextStyle(color: Colors.white))),
         badgeColor: Colors.red,
         child: new Image.asset('images/addperson.png', width: 30, height: 30),
       );
@@ -24,9 +24,12 @@ class ContactHeader extends StatelessWidget {
     return Column(children: <Widget>[
       new ListTile(
           onTap: () => {
-            Navigator.push(context, new MaterialPageRoute(
-              builder: (context) => new SearchFriendPage(showNewFriendsList: true),
-            ))
+            Navigator.push(
+              context,
+              new MaterialPageRoute(
+                builder: (context) => new SearchFriendPage(showNewFriendsList: true)
+              )
+            )
           },
           leading: Observer(builder: (_) => newFriendCountWidget()),
           title: new Text('新加好友'),
